@@ -1,0 +1,161 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Registered user profile with email, Minecraft username, and server roles",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Unique Firebase user ID"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Player or user display name"
+        },
+        "minecraftUsername": {
+          "type": "string",
+          "description": "Linked Minecraft in-game username"
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Profile photo URL or avatar"
+        },
+        "role": {
+          "type": "string",
+          "description": "Assigned server role (Owner, Admin, Sr Mod, Mod, Helper, VIP, Player)",
+          "enum": ["Owner", "Admin", "Sr Mod", "Mod", "Helper", "VIP", "Player"]
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp ISO string"
+        },
+        "lastLoginAt": {
+          "type": "string",
+          "description": "Last login timestamp ISO string"
+        }
+      },
+      "required": ["userId", "email", "role"]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Authorized staff or administrator reference",
+      "type": "object",
+      "properties": {
+        "adminId": {
+          "type": "string",
+          "description": "UID of the admin"
+        },
+        "email": {
+          "type": "string",
+          "description": "Admin email address"
+        },
+        "role": {
+          "type": "string",
+          "description": "Staff role",
+          "enum": ["Owner", "Admin", "Sr Mod"]
+        },
+        "grantedAt": {
+          "type": "string",
+          "description": "Grant timestamp"
+        }
+      },
+      "required": ["adminId", "email", "role"]
+    },
+    "LeaderboardEntry": {
+      "title": "LeaderboardEntry",
+      "description": "Player stats for Minecraft game modes like BoxPvP",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique entry identifier"
+        },
+        "username": {
+          "type": "string",
+          "description": "Minecraft IGN username"
+        },
+        "gameMode": {
+          "type": "string",
+          "description": "Game mode name",
+          "enum": ["boxpvp", "lifesteal", "practice"]
+        },
+        "kills": {
+          "type": "number",
+          "description": "Total kills count"
+        },
+        "deaths": {
+          "type": "number",
+          "description": "Total deaths count"
+        },
+        "score": {
+          "type": "number",
+          "description": "Rating or elo score"
+        },
+        "prestige": {
+          "type": "number",
+          "description": "Prestige tier or level"
+        },
+        "rankTag": {
+          "type": "string",
+          "description": "Optional rank badge"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["id", "username", "gameMode", "kills", "deaths"]
+    },
+    "ServerConfig": {
+      "title": "ServerConfig",
+      "description": "Global server configuration, announcements and broadcast message",
+      "type": "object",
+      "properties": {
+        "motd": {
+          "type": "string",
+          "description": "Server message of the day"
+        },
+        "announcement": {
+          "type": "string",
+          "description": "Header broadcast announcement"
+        },
+        "discordUrl": {
+          "type": "string",
+          "description": "Official community Discord link"
+        },
+        "serverIp": {
+          "type": "string",
+          "description": "Minecraft server hostname"
+        },
+        "serverPort": {
+          "type": "string",
+          "description": "Default server port"
+        }
+      },
+      "required": ["serverIp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles with auth details, Minecraft username, and assigned server roles"
+    },
+    "/admins/{adminId}": {
+      "schema": "AdminRecord",
+      "description": "Registry of admin user IDs"
+    },
+    "/leaderboards/{leaderboardId}": {
+      "schema": "LeaderboardEntry",
+      "description": "Ranked game statistics for game modes like BoxPvP"
+    },
+    "/server_config/{configId}": {
+      "schema": "ServerConfig",
+      "description": "Global server configuration, MOTD, and announcements"
+    }
+  }
+}
